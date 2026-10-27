@@ -1,1 +1,186 @@
-{}
+{
+ "brand": "VERSACE",
+ "tagline": "GANG in OKI TOWN",
+ "mark2": "1 PLAYER IN YOURCLUB",
+ "label": "YOUR SOUNDS",
+ "accent": "#e11d2e",
+ "snow": true,
+ "splash": true,
+ "enter": "ENTER",
+ "logo": "img/1793133577284.png",
+ "members": [
+  {
+   "n": "Founder One",
+   "r": "Founders",
+   "fb": "",
+   "on": false,
+   "img": ""
+  },
+  {
+   "n": "Founder Two",
+   "r": "Founders",
+   "fb": "",
+   "on": false,
+   "img": ""
+  },
+  {
+   "n": "Founder Three",
+   "r": "Founders",
+   "fb": "",
+   "on": false,
+   "img": ""
+  },
+  {
+   "n": "Founder Four",
+   "r": "Founders",
+   "fb": "",
+   "on": false,
+   "img": ""
+  },
+  {
+   "n": "Leader One",
+   "r": "Leaders",
+   "fb": "",
+   "on": false,
+   "img": ""
+  },
+  {
+   "n": "Leader Two",
+   "r": "Leaders",
+   "fb": "",
+   "on": false,
+   "img": ""
+  },
+  {
+   "n": "Member One",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Two",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Three",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Four",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Five",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Six",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Seven",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Eight",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Nine",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Ten",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Eleven",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Twelve",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Thirteen",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Fourteen",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Fifteen",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Sixteen",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  },
+  {
+   "n": "Member Seventeen",
+   "r": "Members",
+   "fb": "",
+   "on": true,
+   "img": ""
+  }
+ ],
+ "tracks": [
+  {
+   "t": "Track Title One",
+   "a": "Artist One",
+   "src": ""
+  },
+  {
+   "t": "Track Title Two",
+   "a": "Artist Two",
+   "src": ""
+  }
+ ]
+}
