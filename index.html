@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Members Portal</title>
+<meta property="og:title" content="Members Portal">
+<meta property="og:description" content="รายชื่อสมาชิก">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Orbitron:wght@900&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0a0a0b; --surf:#16161a; --surf2:#1f1f24; --ink:#fff; --muted:#9a9ea6; --line:rgba(255,255,255,.1);
+  --acc:#e11d2e; --glow:color-mix(in srgb,var(--acc) 45%,transparent);
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:90px;scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Outfit',system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden}
+button,input,select{font-family:inherit}
+.mark{position:fixed;inset:0;display:grid;place-content:center;text-align:center;pointer-events:none;z-index:0;font-family:'Orbitron','Outfit',sans-serif;font-weight:900;color:rgba(255,255,255,.04);line-height:1.05}
+.mark b{font-size:min(15vw,230px);white-space:nowrap}
+.mark i{font-style:normal;font-size:min(4.5vw,64px);letter-spacing:.2em;margin-top:6px}
+.snow{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.snow span{position:absolute;color:rgba(255,255,255,.3);animation:drift linear infinite}
+@keyframes drift{0%{transform:translateY(-6vh) rotate(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(106vh) rotate(180deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.snow span{animation:none;opacity:.3}html{scroll-behavior:auto}.drawer{transition:none!important}.spin .disc{animation:none!important}}
+.page{position:relative;z-index:2}
+header{text-align:center;padding:72px 20px 40px}
+.logo{width:84px;height:84px;margin:0 auto 20px;color:var(--acc);filter:drop-shadow(0 0 10px var(--glow));object-fit:contain;display:block}
+h1{margin:0;font-weight:800;font-size:clamp(34px,9vw,84px);letter-spacing:.09em;line-height:1}
+.sub{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:20px;color:var(--acc);font-size:13px;letter-spacing:.2em}
+.sub:before,.sub:after{content:"";width:46px;height:1px;background:var(--acc);opacity:.7}
+.navwrap{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;justify-content:center;gap:12px;padding:14px 12px}
+.nav{display:flex;align-items:center;gap:2px;padding:6px;border-radius:999px;background:rgba(22,22,26,.85);backdrop-filter:blur(12px);border:1px solid var(--line);max-width:100%;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.tab{flex:none;display:flex;align-items:center;gap:8px;border:0;background:none;color:var(--ink);font:600 13px/1 'Outfit',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:11px 16px;border-radius:999px;cursor:pointer}
+.tab em{font-style:normal;font-size:10px;padding:3px 7px;border-radius:999px;background:rgba(255,255,255,.12)}
+.tab[aria-pressed="true"]{background:var(--acc);color:#fff}
+.tab[aria-pressed="true"] em{background:rgba(0,0,0,.25)}
+.sbtn{flex:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:rgba(22,22,26,.85);color:#fff;cursor:pointer;display:grid;place-items:center}
+.sbox{display:none;align-items:center}
+.sbox.on{display:flex}
+input[type=search],.fld,select.fld{font:500 14px 'Outfit',sans-serif;color:#fff;background:var(--surf2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+.sbox input{border-radius:999px;padding:13px 18px;width:min(240px,50vw)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+main{max-width:1240px;margin:0 auto;padding:30px 24px 60px}
+section{margin-bottom:56px}
+h2{display:flex;align-items:baseline;gap:12px;margin:0 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line);font-size:36px;font-weight:800;text-transform:uppercase}
+h2 small{font-size:13px;font-weight:600;color:var(--acc);letter-spacing:.08em}
+.cards{display:grid;gap:16px;grid-template-columns:repeat(3,1fr)}
+.cards.two{grid-template-columns:repeat(2,minmax(0,400px));justify-content:center}
+@media (max-width:980px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.cards,.cards.two{grid-template-columns:1fr}h2{font-size:28px}main{padding:20px 14px 40px}}
+.card{position:relative;display:flex;align-items:center;gap:16px;padding:18px;border-radius:16px;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid var(--line);transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:var(--rc);box-shadow:0 0 22px -6px var(--rc)}
+.card:before,.card:after{content:"";position:absolute;right:10px;width:11px;height:11px;border:0 solid rgba(255,255,255,.3)}
+.card:before{top:10px;border-top-width:1px;border-right-width:1px;border-top-right-radius:4px}
+.card:after{bottom:10px;border-bottom-width:1px;border-right-width:1px;border-bottom-right-radius:4px}
+.founder{--rc:#ff3345}.leader{--rc:#e6e8ec}.support{--rc:#9aa0a8}.member{--rc:#c4414d}
+.av{position:relative;flex:none;width:64px;height:64px;border-radius:50%;border:2.5px solid var(--rc);box-shadow:0 0 14px -2px var(--rc);display:grid;place-items:center;font-weight:700;font-size:22px;background:radial-gradient(circle at 30% 25%,#34343c,#0f0f12)}
+.av img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.dot{position:absolute;right:-2px;bottom:-2px;width:18px;height:18px;border-radius:50%;border:2px solid #0a0a0a;background:#2fd37f;display:grid;place-items:center}
+.dot.off{background:#e0344a}
+.dot.off:after{content:"";width:8px;height:2px;background:#fff;border-radius:1px}
+.info{min-width:0}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rc);background:color-mix(in srgb,var(--rc) 16%,transparent);border:1px solid color-mix(in srgb,var(--rc) 40%,transparent)}
+.badge:before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+.nm{margin:6px 0 8px;font-size:19px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fb{display:inline-flex;align-items:center;gap:7px;padding:4px 10px 4px 5px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid var(--line);color:#dcdde0;font-size:12px;text-decoration:none}
+.fb i{width:17px;height:17px;border-radius:50%;background:#4a4e57;color:#fff;font:700 11px/17px 'Outfit',sans-serif;text-align:center;font-style:normal}
+.empty{text-align:center;color:var(--muted);padding:60px 0}
+footer{position:relative;z-index:2;text-align:center;padding:0 0 190px}
+.adminlink{background:none;border:1px solid var(--line);color:var(--muted);font-size:12px;padding:8px 16px;border-radius:999px;cursor:pointer}
+.adminlink:hover{color:#fff;border-color:var(--acc)}
+/* player */
+.player{position:fixed;z-index:30;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));width:330px;padding:16px 18px 18px;border-radius:22px;background:rgba(16,10,11,.94);border:1px solid color-mix(in srgb,var(--acc) 50%,transparent);box-shadow:0 0 34px -4px var(--glow);backdrop-filter:blur(14px)}
+@media (max-width:640px){.player{right:12px;left:12px;width:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px))}}
+.player.none{display:none}
+.ph{display:flex;align-items:center;gap:10px;color:var(--acc);font-size:11px;font-weight:700;letter-spacing:.2em}
+.ph .ic{width:28px;height:28px;border-radius:8px;background:color-mix(in srgb,var(--acc) 20%,transparent);display:grid;place-items:center}
+.ph .grow{flex:1}
+.pc{border:0;background:none;color:#c3c5ca;cursor:pointer;padding:6px;border-radius:50%;display:grid;place-items:center}
+.pc:hover{color:#fff}.pc.on{color:var(--acc)}
+.pbody{margin-top:16px}
+.player.min .pbody{display:none}
+.player.min .chev{transform:rotate(180deg)}
+.track{display:flex;gap:14px;align-items:center}
+.disc{flex:none;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,#0a0a0a 0 10%,var(--acc) 11% 14%,#26262b 15% 38%,#5a1a21 39% 70%,#141416 71%);box-shadow:0 0 18px var(--glow)}
+.spin .disc{animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tt{min-width:0}
+.tt b{display:block;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tt span{display:block;color:#b9bdc4;font-size:13px;margin:2px 0 4px}
+.tt small{color:var(--acc);font-size:10px;letter-spacing:.16em}
+.prog{margin-top:18px}
+.prog input,.volr input{width:100%;accent-color:var(--acc);height:4px;cursor:pointer}
+.times{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:2px}
+.ctrls{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:12px}
+.big{width:60px;height:60px;border-radius:50%;border:0;background:var(--acc);color:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:0 0 22px var(--glow)}
+.volr{display:flex;align-items:center;gap:10px;margin-top:16px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.06);font-size:11px;font-weight:700}
+/* admin */
+.drawer{position:fixed;z-index:60;top:0;right:0;bottom:0;width:min(450px,100vw);background:#121215;border-left:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(105%);transition:transform .25s;padding-top:env(safe-area-inset-top,0px)}
+.drawer.open{transform:none}
+.dh{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line);font-weight:700}
+.dh small{color:var(--muted);font-weight:500}
+.dtabs{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid var(--line);overflow-x:auto}
+.dtabs button{flex:none;border:1px solid var(--line);background:none;color:var(--ink);padding:7px 14px;border-radius:999px;font-size:13px;cursor:pointer}
+.dtabs button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc)}
+.dbody{flex:1;overflow-y:auto;padding:16px}
+.lab{display:block;font-size:12px;color:var(--muted);margin:12px 0 5px}
+.row{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.row .two{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.rt{display:flex;gap:10px;align-items:center}
+.thumb{width:40px;height:40px;border-radius:50%;background:var(--surf2);flex:none;object-fit:cover;display:grid;place-items:center;font-weight:700}
+.btn{border:1px solid var(--line);background:var(--surf2);color:#fff;font-size:13px;padding:8px 12px;border-radius:10px;cursor:pointer}
+.btn.red{background:var(--acc);border-color:var(--acc);font-weight:600}
+.btn.del{color:#ff7a86}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center}
+.chk{display:flex;gap:6px;align-items:center;font-size:13px}
+.dfoot{display:flex;gap:10px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.dfoot .btn{flex:1;padding:12px}
+.scrim{position:fixed;inset:0;z-index:55;background:rgba(0,0,0,.6);display:none}
+.scrim.on{display:block}
+.modal{position:fixed;z-index:70;left:50%;top:50%;transform:translate(-50%,-50%);width:min(340px,92vw);background:#121215;border:1px solid var(--line);border-radius:16px;padding:22px;display:none}
+.modal.on{display:block}
+.modal h3{margin:0 0 4px;font-size:18px}
+.modal p{margin:0 0 14px;color:var(--muted);font-size:13px}
+.err{color:#ff7a86;font-size:13px;min-height:18px;margin-top:8px}
+.toast{position:fixed;z-index:80;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#222228;border:1px solid var(--acc);padding:10px 18px;border-radius:999px;font-size:14px;display:none;max-width:92vw}
+.toast.on{display:block}
+.splash{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at center,#1d060a 0,#050505 72%);display:grid;place-items:center;text-align:center;overflow:hidden;transition:opacity .9s,transform .9s,filter .9s}
+.splash.out{opacity:0;transform:scale(1.35);filter:blur(10px);pointer-events:none}
+.splash.gone{display:none}
+#fx{position:absolute;inset:0;width:100%;height:100%}
+.scan{position:absolute;left:0;right:0;top:-4px;height:2px;background:var(--acc);box-shadow:0 0 24px 6px var(--glow);animation:scan 2.4s ease-in .4s forwards}
+@keyframes scan{to{top:105%}}
+.sin{position:relative;padding:20px;max-width:100%}
+.ringw{position:relative;width:170px;height:170px;margin:0 auto 26px;display:grid;place-items:center}
+.ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(transparent 0 50%,var(--acc) 90%,#fff);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));animation:rot 2.6s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.ringw .logo{width:104px;height:104px;margin:0;animation:pop 1.2s .3s backwards}
+@keyframes pop{from{opacity:0;transform:scale(.4);filter:blur(12px)}}
+.ringw .logo path{stroke-dasharray:260;animation:draw 1.8s .3s backwards}
+@keyframes draw{from{stroke-dashoffset:260}}
+.gl{position:relative;margin:0;animation:reveal 1.4s .9s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes reveal{from{clip-path:inset(0 100% 0 0);opacity:0}}
+.gl:before,.gl:after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;opacity:0;animation:glitch 3.2s 2.4s infinite}
+.gl:before{color:var(--acc)}
+.gl:after{color:#9aa0a8;animation-delay:2.47s}
+@keyframes glitch{0%,86%,100%{opacity:0}88%{opacity:.9;transform:translate(-6px,2px);clip-path:inset(10% 0 55% 0)}91%{opacity:.9;transform:translate(7px,-2px);clip-path:inset(60% 0 8% 0)}94%{opacity:.9;transform:translate(-3px,0);clip-path:inset(30% 0 35% 0)}}
+.splash .sub{animation:fade 1s 2.2s backwards}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+.load{margin:38px auto 0;width:min(320px,80vw);font-size:11px;letter-spacing:.2em;color:var(--muted);animation:fade 1s 2.4s backwards}
+.lbar{height:3px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden;margin-bottom:8px}
+.lbar i{display:block;height:100%;width:0;background:var(--acc);box-shadow:0 0 10px var(--acc)}
+.enter{display:none;margin:34px auto 0;padding:14px 46px;border-radius:999px;border:1px solid var(--acc);background:transparent;color:#fff;font:700 15px 'Outfit',sans-serif;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;animation:pulse 1.8s infinite}
+.enter:hover{background:var(--acc)}
+.splash.ready .load{display:none}.splash.ready .enter{display:inline-block}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--glow)}50%{box-shadow:0 0 28px 6px var(--glow)}}
+.splash:not(.go) *,.splash:not(.go) *:before,.splash:not(.go) *:after{animation-play-state:paused!important}
+@media (prefers-reduced-motion:reduce){.splash *,.splash *:before,.splash *:after{animation:none!important}.scan{display:none}}
+</style>
+</head>
+<body>
+<div class="splash" id="splash" aria-label="หน้าเปิด">
+  <canvas id="fx" aria-hidden="true"></canvas><div class="scan"></div>
+  <div class="sin">
+    <div class="ringw"><div class="ring"></div><div id="sLogo"></div></div>
+    <h1 class="gl" id="sName"></h1>
+    <div class="sub" id="sTag"></div>
+    <div class="load"><div class="lbar"><i id="barI"></i></div><span id="pct">0%</span></div>
+    <button class="enter" id="enterBtn"></button>
+  </div>
+</div>
+<div class="mark" aria-hidden="true"><b id="mk1"></b><i id="mk2"></i></div>
+<div class="snow" id="snow" aria-hidden="true"></div>
+
+<div class="page">
+  <header>
+    <div id="logoBox"></div>
+    <h1 id="brand"></h1>
+    <div class="sub" id="tag"></div>
+  </header>
+  <div class="navwrap">
+    <nav class="nav" id="tabs" aria-label="กรองตามบทบาท"></nav>
+    <div class="sbox" id="sbox"><input type="search" id="q" placeholder="ค้นหาชื่อ" aria-label="ค้นหาชื่อสมาชิก"></div>
+    <button class="sbtn" id="sbtn" aria-label="ค้นหา"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+  </div>
+  <main id="main"></main>
+  <footer><button class="adminlink" id="adminBtn">เข้าสู่ระบบแอดมิน</button></footer>
+</div>
+
+<aside class="player" id="player" aria-label="เครื่องเล่นเพลง">
+  <div class="ph">
+    <span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 3v12.3A3.5 3.5 0 1 0 11 18.5V8h6V3z"/></svg></span>
+    <span>NOW PLAYING</span><span class="grow"></span>
+    <button class="pc chev" id="chev" aria-label="ย่อหรือขยายเครื่องเล่น"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  <div class="pbody">
+    <div class="track" id="trackbox"><div class="disc"></div><div class="tt"><b id="tTitle"></b><span id="tArtist"></span><small id="tLabel"></small></div></div>
+    <div class="prog"><input type="range" id="seek" min="0" max="100" value="0" aria-label="ตำแหน่งเพลง"><div class="times"><span id="cur">0:00</span><span id="dur">0:00</span></div></div>
+    <div class="ctrls">
+      <button class="pc" id="rep" aria-label="เล่นซ้ำ" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></button>
+      <button class="pc" id="prev" aria-label="เพลงก่อนหน้า"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+      <button class="big" id="play" aria-label="เล่นหรือหยุดเพลง"></button>
+      <button class="pc" id="next" aria-label="เพลงถัดไป"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+      <button class="pc" id="mute" aria-label="ปิดเสียง"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></button>
+    </div>
+    <div class="volr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round"><path d="M11 5L6 9H2v6h4l5 4z"/></svg><input type="range" id="vol" min="0" max="100" value="35" aria-label="ระดับเสียง"><span id="vv">35%</span></div>
+  </div>
+</aside>
+
+<div class="scrim" id="scrim"></div>
+<div class="modal" id="login" role="dialog" aria-label="เข้าสู่ระบบแอดมิน">
+  <h3>เข้าสู่ระบบแอดมิน</h3><p>วาง GitHub Token ของ repo นี้ เพื่อแก้ไขเว็บ</p>
+  <input class="fld" type="password" id="pw" placeholder="GitHub Token" autocomplete="off">
+  <label class="chk" style="margin-top:10px"><input type="checkbox" id="rem">จำไว้ในเครื่องนี้</label>
+  <div class="err" id="pwErr"></div>
+  <div class="btns"><button class="btn red" id="pwGo">เข้าสู่ระบบ</button><button class="btn" id="pwX">ยกเลิก</button></div>
+</div>
+<aside class="drawer" id="drawer" aria-label="แผงแอดมิน">
+  <div class="dh"><span>แผงแอดมิน <small id="dirty"></small></span><button class="btn" id="dClose">ปิด</button></div>
+  <div class="dtabs" id="dtabs"></div>
+  <div class="dbody" id="dbody"></div>
+  <div class="dfoot"><button class="btn red" id="save">บันทึกและเผยแพร่</button><button class="btn" id="logout">ออกจากระบบ</button></div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+var S = {brand:"YOURCLUB",tagline:"YOUR CLUB NAME",mark2:"1 PLAYER IN YOURCLUB",label:"YOUR SOUNDS",accent:"#e11d2e",snow:true,splash:true,enter:"ENTER",logo:"",members:null,tracks:null};
+var TOKEN = "", LOCAL = {};
+var ready = fetch("data.json?v="+Date.now()).then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; }).then(function(o){ for(var k in o) S[k]=o[k]; seed(); });
+var $ = function(id){ return document.getElementById(id); };
+var ROLES = ["Founders","Leaders","Support","Members"];
+var CLS = {Founders:"founder",Leaders:"leader",Support:"support",Members:"member"};
+var BADGE = {Founders:"Founder",Leaders:"Leader",Support:"Support",Members:"Member"};
+var SALT = "mp26:";
+function seed(){
+if(!S.members){
+  S.members = [];
+  [["Founders",["Founder One","Founder Two","Founder Three","Founder Four"]],["Leaders",["Leader One","Leader Two"]],
+   ["Members",["Member One","Member Two","Member Three","Member Four","Member Five","Member Six","Member Seven","Member Eight","Member Nine","Member Ten","Member Eleven","Member Twelve","Member Thirteen","Member Fourteen","Member Fifteen","Member Sixteen","Member Seventeen"]]
+  ].forEach(function(g){ g[1].forEach(function(n){ S.members.push({n:n,r:g[0],fb:"",on:g[0]==="Members",img:""}); }); });
+}
+if(!S.tracks) S.tracks = [{t:"Track Title One",a:"Artist One",src:""},{t:"Track Title Two",a:"Artist Two",src:""}];
+}
+
+function h(t,p,k){ var e=document.createElement(t); for(var a in (p||{})){ if(a==="class")e.className=p[a]; else if(a.slice(0,2)==="on")e[a]=p[a]; else if(a==="value")e.value=p[a]; else if(a==="checked")e.checked=p[a]; else e.setAttribute(a,p[a]); } (k||[]).forEach(function(c){ e.appendChild(typeof c==="string"?document.createTextNode(c):c); }); return e; }
+function toast(m){ var t=$("toast"); t.textContent=m; t.classList.add("on"); clearTimeout(toast.t); toast.t=setTimeout(function(){t.classList.remove("on")},3500); }
+function sha(s){ return crypto.subtle.digest("SHA-256", new TextEncoder().encode(SALT+s)).then(function(b){ return Array.from(new Uint8Array(b)).map(function(x){return ("0"+x.toString(16)).slice(-2)}).join(""); }); }
+function blob(v){ return v ? (LOCAL[v] || v) : ""; }
+function audioUrl(u){ var m = /drive\.google\.com\/file\/d\/([\w-]+)/.exec(u) || /[?&]id=([\w-]+)/.exec(u); return (m && /drive\.google/.test(u)) ? "https://drive.google.com/uc?export=download&id="+m[1] : u; }
+
+/* ===== แสดงผลหน้าเว็บ ===== */
+var active = "All", query = "";
+function cnt(r){ return r==="All" ? S.members.length : S.members.filter(function(m){return m.r===r}).length; }
+function drawSite(){
+  document.documentElement.style.setProperty("--acc", S.accent);
+  $("brand").textContent = S.brand; $("mk1").textContent = S.brand; $("mk2").textContent = S.mark2; $("tag").textContent = S.tagline;
+  document.title = S.brand + " · Members"; drawSplash();
+  var lb = $("logoBox"); lb.innerHTML = "";
+  if(S.logo) lb.appendChild(h("img",{class:"logo",src:blob(S.logo),alt:""}));
+  else lb.innerHTML = '<svg class="logo" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true"><path d="M8 44 L12 20 L24 32 L32 14 L40 32 L52 20 L56 44 Z"/><path d="M10 52 H54"/></svg>';
+  var sn = $("snow"); sn.innerHTML = "";
+  if(S.snow) for(var i=0;i<18;i++){ var sp=h("span"); sp.textContent="✲"; sp.style.left=Math.random()*100+"%"; sp.style.fontSize=(10+Math.random()*16)+"px"; sp.style.animationDuration=(14+Math.random()*18)+"s"; sp.style.animationDelay=(-Math.random()*30)+"s"; sn.appendChild(sp); }
+}
+function drawTabs(){
+  var box = $("tabs"); box.innerHTML = "";
+  ["All"].concat(ROLES).forEach(function(r){
+    var b = h("button",{class:"tab","aria-pressed":String(r===active)}); b.innerHTML = r + "<em>" + cnt(r) + "</em>";
+    b.onclick = function(){ active = r; drawTabs(); drawMain(); }; box.appendChild(b);
+  });
+}
+function drawMain(){
+  var main = $("main"); main.innerHTML = ""; var shown = 0;
+  ROLES.forEach(function(role, idx){
+    if(active!=="All" && active!==role) return;
+    var list = S.members.filter(function(m){ return m.r===role && m.n.toLowerCase().indexOf(query.toLowerCase())>-1; });
+    if(!list.length) return; shown++;
+    var s = h("section"); s.innerHTML = "<h2>"+role+"<small>/ "+(idx<9?"0":"")+(idx+1)+"</small></h2>";
+    var g = h("div",{class:"cards"+((role==="Founders"||role==="Leaders")?" two":"")});
+    list.forEach(function(m){
+      var av = h("div",{class:"av"},[m.n.charAt(0)]);
+      if(m.img) av.appendChild(h("img",{src:blob(m.img),alt:""}));
+      av.appendChild(h("span",{class:"dot"+(m.on?"":" off")}));
+      var fb = h("a",/^https?:\/\//i.test(m.fb)?{class:"fb",href:m.fb,target:"_blank",rel:"noopener"}:{class:"fb"}); fb.innerHTML = "<i>f</i>Facebook";
+      g.appendChild(h("div",{class:"card "+CLS[role]},[av,h("div",{class:"info"},[h("span",{class:"badge"},[BADGE[role]]),h("p",{class:"nm"},[m.n]),fb])]));
+    });
+    s.appendChild(g); main.appendChild(s);
+  });
+  if(!shown) main.innerHTML = '<div class="empty">ไม่พบสมาชิก ลองเปลี่ยนคำค้นหาหรือเลือกกลุ่มอื่น</div>';
+}
+$("sbtn").onclick = function(){ var b=$("sbox"); b.classList.toggle("on"); if(b.classList.contains("on")) $("q").focus(); else { $("q").value=""; query=""; drawMain(); } };
+$("q").oninput = function(){ query = this.value; drawMain(); };
+function refresh(){ drawSite(); drawTabs(); drawMain(); loadTrack(P.i); }
+
+/* ===== เครื่องเล่นเพลง ===== */
+var P = {i:0, playing:false, pos:0, rep:false, muted:false, audio:null};
+var IP = '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+var IQ = '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+function fmt(s){ s=Math.floor(s||0); return Math.floor(s/60)+":"+("0"+(s%60)).slice(-2); }
+function total(){ return (P.audio && P.audio.duration) ? P.audio.duration : 180; }
+function paint(){ $("cur").textContent=fmt(P.pos); $("dur").textContent=fmt(total()); $("seek").value=P.pos/total()*100; }
+function loadTrack(i){
+  var T = S.tracks; $("player").classList.toggle("none", !T.length); if(!T.length) return;
+  P.i = (i+T.length)%T.length; P.pos = 0; var t = T[P.i];
+  if(P.audio){ P.audio.pause(); P.audio = null; }
+  if(t.src){ P.audio = new Audio(audioUrl(t.src)); P.audio.volume = $("vol").value/100; P.audio.muted = P.muted; if(P.playing) P.audio.play().catch(function(){}); }
+  $("tTitle").textContent = t.t; $("tArtist").textContent = t.a; $("tLabel").textContent = S.label; paint();
+}
+function setPlaying(v){ P.playing = v; $("play").innerHTML = v ? IQ : IP; $("trackbox").classList.toggle("spin", v); if(P.audio){ v ? P.audio.play().catch(function(){}) : P.audio.pause(); } }
+$("play").onclick = function(){ setPlaying(!P.playing); };
+$("next").onclick = function(){ loadTrack(P.i+1); };
+$("prev").onclick = function(){ loadTrack(P.i-1); };
+$("rep").onclick = function(){ P.rep=!P.rep; this.classList.toggle("on",P.rep); this.setAttribute("aria-pressed",String(P.rep)); };
+$("mute").onclick = function(){ P.muted=!P.muted; this.classList.toggle("on",P.muted); if(P.audio) P.audio.muted=P.muted; };
+$("chev").onclick = function(){ $("player").classList.toggle("min"); };
+$("vol").oninput = function(){ $("vv").textContent=this.value+"%"; if(P.audio) P.audio.volume=this.value/100; };
+$("seek").oninput = function(){ P.pos=this.value/100*total(); if(P.audio) P.audio.currentTime=P.pos; paint(); };
+setInterval(function(){
+  if(!P.playing) return;
+  if(P.audio) P.pos = P.audio.currentTime; else P.pos += 1;
+  if(P.pos >= total()){ if(P.rep){ P.pos=0; if(P.audio){ P.audio.currentTime=0; P.audio.play(); } } else loadTrack(P.i+1); }
+  paint();
+}, 1000);
+
+/* ===== แอดมิน ===== */
+var admin = false, dirty = false, dtab = "site";
+function markDirty(){ dirty = true; $("dirty").textContent = "· ยังไม่ได้บันทึก"; }
+function openLogin(){ $("scrim").classList.add("on"); $("login").classList.add("on"); $("pw").value=lsGet("tk")||""; $("rem").checked=!!lsGet("tk"); $("pwErr").textContent=""; $("pw").focus(); }
+function closeLogin(){ $("login").classList.remove("on"); if(!$("drawer").classList.contains("open")) $("scrim").classList.remove("on"); }
+function openDrawer(){ admin = true; $("drawer").classList.add("open"); $("scrim").classList.add("on"); drawAdmin(); }
+function closeDrawer(){ $("drawer").classList.remove("open"); $("scrim").classList.remove("on"); }
+$("adminBtn").onclick = function(){ admin ? openDrawer() : openLogin(); };
+$("pwX").onclick = closeLogin;
+$("scrim").onclick = function(){ closeLogin(); closeDrawer(); };
+$("dClose").onclick = closeDrawer;
+$("logout").onclick = function(){ if(dirty && !confirm("ยังไม่ได้บันทึก ต้องการออกจากระบบหรือไม่?")) return; admin=false; closeDrawer(); };
+$("pw").onkeydown = function(e){ if(e.key==="Enter") $("pwGo").click(); };
+var GH = {o:"", r:""};
+(function(){ var hn = location.hostname, p = location.pathname.split("/")[1]; if(/\.github\.io$/.test(hn)){ GH.o = hn.split(".")[0]; GH.r = p || hn; } })();
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ v ? localStorage.setItem(k,v) : localStorage.removeItem(k); }catch(e){} }
+function b64(str){ return btoa(unescape(encodeURIComponent(str))); }
+function api(path, opt){
+  opt = opt || {}; opt.headers = {"Authorization":"Bearer "+TOKEN,"Accept":"application/vnd.github+json"};
+  if(opt.body) opt.headers["Content-Type"] = "application/json";
+  return fetch("https://api.github.com/repos/"+GH.o+"/"+GH.r+(path?"/"+path:""), opt).then(function(r){
+    return r.json().then(function(j){ if(!r.ok) throw {status:r.status,msg:j.message}; return j; }, function(){ if(!r.ok) throw {status:r.status}; return {}; });
+  });
+}
+function commit(path, content64, msg){
+  return api("contents/"+path).then(function(j){ return j.sha; }, function(e){ if(e.status===404) return null; throw e; }).then(function(sha){
+    var body = {message:msg, content:content64}; if(sha) body.sha = sha;
+    return api("contents/"+path, {method:"PUT", body:JSON.stringify(body)});
+  });
+}
+$("pwGo").onclick = function(){
+  var t = $("pw").value.trim(); if(!t){ $("pwErr").textContent = "วาง Token ก่อน"; return; }
+  if(!GH.o){ var x = (prompt("ใส่ชื่อ repo เช่น ชื่อผู้ใช้/ชื่อrepo", lsGet("repo")||"")||"").split("/"); if(x.length!==2||!x[0]||!x[1]) return; GH.o = x[0]; GH.r = x[1]; lsSet("repo", x.join("/")); }
+  TOKEN = t; $("pwErr").textContent = "กำลังตรวจสอบ...";
+  api("").then(function(){ lsSet("tk", $("rem").checked ? t : ""); closeLogin(); openDrawer(); })
+    .catch(function(e){ TOKEN = ""; $("pwErr").textContent = (e.status===401||e.status===404) ? "Token ไม่ถูกต้อง หมดอายุ หรือไม่มีสิทธิ์ใน repo นี้" : (e.msg || "เชื่อมต่อ GitHub ไม่สำเร็จ"); });
+};
+function upload(file, max){
+  return new Promise(function(res){
+    var fr = new FileReader();
+    fr.onload = function(){
+      var im = new Image();
+      im.onload = function(){
+        var k = Math.min(1, max/Math.max(im.width, im.height)), c = document.createElement("canvas");
+        c.width = Math.round(im.width*k); c.height = Math.round(im.height*k);
+        c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+        var jpg = file.type==="image/jpeg", url = c.toDataURL(jpg?"image/jpeg":"image/png", .85), path = "img/" + Date.now() + (jpg?".jpg":".png");
+        toast("กำลังอัปโหลด...");
+        commit(path, url.split(",")[1], "upload image").then(function(){ LOCAL[path] = url; res(path); })
+          .catch(function(e){ toast("อัปโหลดไม่สำเร็จ: " + (e.msg || "ไม่มีสิทธิ์เขียน repo")); res(null); });
+      };
+      im.onerror = function(){ toast("ไฟล์รูปไม่ถูกต้อง"); res(null); };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+function pick(accept, cb){ var f = h("input",{type:"file",accept:accept}); f.onchange = function(){ if(f.files[0]) upload(f.files[0], 400).then(function(p){ if(p){ cb(p); toast("อัปโหลดแล้ว กด บันทึกและเผยแพร่"); } }); }; f.click(); }
+function pickAudio(cb){
+  var f = h("input",{type:"file",accept:"audio/mpeg,audio/mp4,audio/ogg,audio/wav,.mp3,.m4a"});
+  f.onchange = function(){
+    var file = f.files[0]; if(!file) return;
+    if(file.size > 10*1024*1024) return toast("ไฟล์ใหญ่เกิน 10 MB ลองบีบอัดไฟล์เสียงก่อน");
+    var fr = new FileReader(); toast("กำลังอัปโหลดเพลง...");
+    fr.onload = function(){
+      var ext = (/\.(mp3|m4a|ogg|wav)$/i.exec(file.name)||[".mp3"])[0].toLowerCase(), path = "audio/" + Date.now() + ext;
+      commit(path, fr.result.split(",")[1], "upload audio").then(function(){ cb(path); toast("อัปโหลดแล้ว กด บันทึกและเผยแพร่"); })
+        .catch(function(e){ toast("อัปโหลดไม่สำเร็จ: " + (e.msg || "ไม่มีสิทธิ์เขียน repo")); });
+    };
+    fr.readAsDataURL(file);
+  };
+  f.click();
+}
+function fld(label, val, on, type){ var i = h("input",{class:"fld",type:type||"text",value:val||""}); i.oninput = function(){ on(i.value); markDirty(); }; return h("div",{},[h("label",{class:"lab"},[label]),i]); }
+
+function drawAdmin(){
+  var tb = $("dtabs"); tb.innerHTML = "";
+  [["site","ทั่วไป"],["members","สมาชิก"],["music","เพลง"],["sec","ความปลอดภัย"]].forEach(function(t){
+    tb.appendChild(h("button",{"aria-pressed":String(dtab===t[0]),onclick:function(){ dtab=t[0]; drawAdmin(); }},[t[1]]));
+  });
+  var b = $("dbody"); b.innerHTML = "";
+  if(dtab==="site"){
+    b.appendChild(fld("ชื่อเว็บ", S.brand, function(v){ S.brand=v; drawSite(); }));
+    b.appendChild(fld("บรรทัดใต้ชื่อ", S.tagline, function(v){ S.tagline=v; drawSite(); }));
+    b.appendChild(fld("ข้อความเล็กบนลายน้ำ", S.mark2, function(v){ S.mark2=v; drawSite(); }));
+    b.appendChild(fld("ป้ายเครื่องเล่นเพลง", S.label, function(v){ S.label=v; $("tLabel").textContent=v; }));
+    var c = h("input",{type:"color",value:S.accent}); c.oninput = function(){ S.accent=c.value; drawSite(); markDirty(); };
+    b.appendChild(h("label",{class:"lab"},["สีหลัก (สีแดง)"])); b.appendChild(c);
+    var sn = h("input",{type:"checkbox",checked:S.snow}); sn.onchange = function(){ S.snow=sn.checked; drawSite(); markDirty(); };
+    b.appendChild(h("label",{class:"chk",style:"margin-top:14px"},[sn,"แสดงหิมะ/ดาวลอย"]));
+    var sp2 = h("input",{type:"checkbox",checked:S.splash}); sp2.onchange = function(){ S.splash=sp2.checked; markDirty(); };
+    b.appendChild(h("label",{class:"chk",style:"margin-top:10px"},[sp2,"แสดงหน้าเปิด (Intro) ก่อนเข้าเว็บ"]));
+    b.appendChild(fld("ข้อความปุ่มเข้าเว็บ", S.enter, function(v){ S.enter=v; $("enterBtn").textContent=v; }));
+    b.appendChild(h("label",{class:"lab"},["โลโก้"]));
+    b.appendChild(h("div",{class:"btns"},[
+      h("button",{class:"btn",onclick:function(){ pick("image/*",function(id){ S.logo=id; drawSite(); markDirty(); drawAdmin(); }); }},["อัปโหลดโลโก้"]),
+      h("button",{class:"btn del",onclick:function(){ S.logo=""; drawSite(); markDirty(); }},["ลบโลโก้"])]));
+  }
+  if(dtab==="members"){
+    b.appendChild(h("div",{class:"btns"},[h("button",{class:"btn red",onclick:function(){ S.members.push({n:"สมาชิกใหม่",r:"Members",fb:"",on:true,img:""}); markDirty(); drawTabs(); drawMain(); drawAdmin(); }},["+ เพิ่มสมาชิก"])]));
+    S.members.forEach(function(m,i){
+      var th = h("div",{class:"thumb"},[m.n.charAt(0)]); if(m.img) th = h("img",{class:"thumb",src:blob(m.img),alt:""});
+      var nm = h("input",{class:"fld",value:m.n}); nm.oninput = function(){ m.n=nm.value; markDirty(); drawMain(); };
+      var rl = h("select",{class:"fld"}, ROLES.map(function(r){ var o=h("option",{value:r},[r]); if(r===m.r) o.selected=true; return o; }));
+      rl.onchange = function(){ m.r=rl.value; markDirty(); drawTabs(); drawMain(); };
+      var fb = h("input",{class:"fld",value:m.fb,placeholder:"ลิงก์ Facebook"}); fb.oninput = function(){ m.fb=fb.value; markDirty(); drawMain(); };
+      var on = h("input",{type:"checkbox",checked:m.on}); on.onchange = function(){ m.on=on.checked; markDirty(); drawMain(); };
+      b.appendChild(h("div",{class:"row"},[
+        h("div",{class:"rt"},[th,nm]), h("div",{class:"two"},[rl,fb]),
+        h("div",{class:"btns"},[h("label",{class:"chk"},[on,"ออนไลน์"]),
+          h("button",{class:"btn",onclick:function(){ pick("image/*",function(id){ m.img=id; markDirty(); drawMain(); drawAdmin(); }); }},["รูปโปรไฟล์"]),
+          h("button",{class:"btn del",onclick:function(){ if(confirm("ลบ "+m.n+" ?")){ S.members.splice(i,1); markDirty(); drawTabs(); drawMain(); drawAdmin(); } }},["ลบ"])])
+      ]));
+    });
+  }
+  if(dtab==="music"){
+    b.appendChild(h("p",{class:"lab"},["อัปโหลดไฟล์เพลง (ไม่เกิน 10 MB) หรือวางลิงก์ไฟล์ .mp3 (ถ้าเว้นว่างจะเป็นตัวเล่นจำลอง)"]));
+    b.appendChild(h("div",{class:"btns"},[h("button",{class:"btn red",onclick:function(){ S.tracks.push({t:"เพลงใหม่",a:"ศิลปิน",src:""}); markDirty(); loadTrack(P.i); drawAdmin(); }},["+ เพิ่มเพลง"])]));
+    S.tracks.forEach(function(t,i){
+      var ti = h("input",{class:"fld",value:t.t,placeholder:"ชื่อเพลง"}); ti.oninput = function(){ t.t=ti.value; markDirty(); if(i===P.i) $("tTitle").textContent=t.t; };
+      var ar = h("input",{class:"fld",value:t.a,placeholder:"ศิลปิน"}); ar.oninput = function(){ t.a=ar.value; markDirty(); if(i===P.i) $("tArtist").textContent=t.a; };
+      var sr = h("input",{class:"fld",value:t.src,placeholder:"ลิงก์ไฟล์เสียง (https://...)"}); sr.oninput = function(){ t.src=sr.value; markDirty(); };
+      b.appendChild(h("div",{class:"row"},[ti,h("div",{class:"two"},[ar,sr]),
+        h("div",{class:"btns"},[h("button",{class:"btn",onclick:function(){ pickAudio(function(p){ t.src=p; sr.value=p; markDirty(); loadTrack(P.i); }); }},["อัปโหลดเพลง"]),h("button",{class:"btn del",onclick:function(){ S.tracks.splice(i,1); markDirty(); loadTrack(0); drawAdmin(); }},["ลบ"])])]));
+    });
+  }
+  if(dtab==="sec"){
+    b.appendChild(h("p",{class:"lab"},["การเข้าสู่ระบบใช้ GitHub Token ของ repo นี้ ใครมี Token คนนั้นแก้เว็บได้ ห้ามแจกหรือโพสต์ที่ไหน ถ้าหลุดให้ไปลบ (Revoke) ที่ GitHub แล้วสร้างใหม่"]));
+    b.appendChild(h("p",{class:"lab"},["Repo ที่เชื่อมอยู่: " + GH.o + "/" + GH.r]));
+    b.appendChild(h("div",{class:"btns"},[h("button",{class:"btn",onclick:function(){ lsSet("tk",""); toast("ลบ Token ที่จำไว้ในเครื่องนี้แล้ว"); }},["ลืม Token ในเครื่องนี้"])]));
+  }
+}
+
+$("save").onclick = function(){
+  if(!TOKEN) return toast("ยังไม่ได้เข้าสู่ระบบ");
+  toast("กำลังบันทึก...");
+  commit("data.json", b64(JSON.stringify(S, null, 1)), "update site data")
+    .then(function(){ dirty = false; $("dirty").textContent = ""; toast("บันทึกแล้ว เว็บจะอัปเดตภายใน 1-2 นาที"); })
+    .catch(function(e){ toast("บันทึกไม่สำเร็จ: " + ((e.status===401||e.status===403||e.status===404) ? "Token ไม่มีสิทธิ์เขียน repo นี้" : (e.msg||"ไม่ทราบสาเหตุ"))); });
+};
+
+/* ===== หน้าเปิด (Intro) ===== */
+var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches, splash = $("splash"), fxOn = false, fxc = $("fx"), parts = [];
+function drawSplash(){
+  $("sName").textContent = S.brand; $("sName").setAttribute("data-text", S.brand); $("sTag").textContent = S.tagline; $("enterBtn").textContent = S.enter;
+  var b = $("sLogo"); b.innerHTML = "";
+  if(S.logo) b.appendChild(h("img",{class:"logo",src:blob(S.logo),alt:"",style:"border-radius:50%;object-fit:cover"})); else b.innerHTML = $("logoBox").innerHTML;
+}
+function runFx(){
+  if(reduced) return; fxOn = true; var ctx = fxc.getContext("2d");
+  function size(){ fxc.width = innerWidth; fxc.height = innerHeight; } size(); addEventListener("resize", size);
+  for(var i=0;i<70;i++) parts.push({x:Math.random()*fxc.width,y:Math.random()*fxc.height,r:Math.random()*2+.5,v:.3+Math.random()*1.1,a:Math.random()});
+  (function loop(){
+    if(!fxOn) return; ctx.clearRect(0,0,fxc.width,fxc.height);
+    parts.forEach(function(p){ p.y -= p.v; p.x += Math.sin(p.y/40)*.3; if(p.y<-5){ p.y = fxc.height+5; p.x = Math.random()*fxc.width; }
+      ctx.globalAlpha = p.a*.8; ctx.fillStyle = p.r>1.8 ? "#fff" : S.accent; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.283); ctx.fill(); });
+    requestAnimationFrame(loop);
+  })();
+}
+function startSplash(){
+  if(!S.splash){ splash.classList.add("gone"); return; }
+  splash.classList.add("go"); document.body.style.overflow = "hidden"; runFx();
+  var t0 = Date.now(), dur = reduced ? 600 : 3800;
+  var iv = setInterval(function(){
+    var p = Math.min(100, Math.round((Date.now()-t0)/dur*100));
+    $("pct").textContent = p + "%"; $("barI").style.width = p + "%";
+    if(p>=100){ clearInterval(iv); splash.classList.add("ready"); $("enterBtn").focus(); }
+  }, 40);
+}
+$("enterBtn").onclick = function(){
+  splash.classList.add("out"); document.body.style.overflow = "";
+  setTimeout(function(){ splash.classList.add("gone"); fxOn = false; }, 950);
+  if(S.tracks.length && S.tracks[P.i].src) setPlaying(true);
+};
+
+ready.then(function(){ refresh(); setPlaying(false); startSplash(); });
+</script>
+</body>
+</html>
