@@ -4,10 +4,17 @@
  "mark2": "The survivor is the winner",
  "label": "YOUR SOUNDS",
  "accent": "#e11d2e",
- "snow": false,
+ "snow": true,
  "splash": true,
+ "force": true,
  "enter": "ENTER",
  "logo": "img/1793133577284.png",
+ "logoSize": 150,
+ "sfx": true,
+ "fontH": "",
+ "fontB": "",
+ "bg": "",
+ "bgDim": 55,
  "members": [
   {
    "n": "Founder One",
@@ -52,7 +59,7 @@
    "img": ""
   },
   {
-   "n": "Member One",
+   "n": "Oliver Ufafox",
    "r": "Members",
    "fb": "",
    "on": true,
