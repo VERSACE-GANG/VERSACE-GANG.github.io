@@ -11,6 +11,7 @@
  "logo": "img/1793133577284.png",
  "logoSize": 150,
  "sfx": true,
+ "slash": true,
  "fontH": "",
  "fontB": "",
  "bg": "",
@@ -18,27 +19,6 @@
  "members": [
   {
    "n": "Founder One",
-   "r": "Founders",
-   "fb": "",
-   "on": false,
-   "img": ""
-  },
-  {
-   "n": "Founder Two",
-   "r": "Founders",
-   "fb": "",
-   "on": false,
-   "img": ""
-  },
-  {
-   "n": "Founder Three",
-   "r": "Founders",
-   "fb": "",
-   "on": false,
-   "img": ""
-  },
-  {
-   "n": "Founder Four",
    "r": "Founders",
    "fb": "",
    "on": false,
@@ -178,11 +158,5 @@
    "img": ""
   }
  ],
- "tracks": [
-  {
-   "t": "One Of The Girls",
-   "a": "1 WIN",
-   "src": "https://youtu.be/gqaVSkZJTQk?list=RDgqaVSkZJTQk"
-  }
- ]
+ "tracks": []
 }
