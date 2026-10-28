@@ -18,21 +18,14 @@
  "bgDim": 55,
  "members": [
   {
-   "n": "Founder One",
+   "n": "Azar Versace",
    "r": "Founders",
    "fb": "",
-   "on": false,
+   "on": true,
    "img": ""
   },
   {
-   "n": "Leader One",
-   "r": "Leaders",
-   "fb": "",
-   "on": false,
-   "img": ""
-  },
-  {
-   "n": "Leader Two",
+   "n": "Chloe Versace",
    "r": "Leaders",
    "fb": "",
    "on": false,
