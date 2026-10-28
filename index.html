@@ -106,9 +106,21 @@ footer{position:relative;z-index:2;text-align:center;padding:0 0 190px}
 .pc:hover{color:#fff}.pc.on{color:var(--acc)}
 .pbody{margin-top:16px}
 .player.min .pbody{display:none}
+.ph .mini,.ph .mplay{display:none}
+.ph .mini{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff;letter-spacing:.04em;font-size:13px;font-weight:600}
+.player.min .ph .mini{display:block}.player.min .ph .mplay{display:grid;color:var(--acc)}
+.player.min .ph .np,.player.min .ph .grow{display:none}
+.player.min{padding:10px 14px}
+.mplay svg{width:22px;height:22px}
+@media (max-width:640px){footer{padding-bottom:110px}body:not(.pmin) footer{padding-bottom:420px}}
 .player.min .chev{transform:rotate(180deg)}
 .track{display:flex;gap:14px;align-items:center}
 .disc{flex:none;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,#0a0a0a 0 10%,var(--acc) 11% 14%,#26262b 15% 38%,#5a1a21 39% 70%,#141416 71%);box-shadow:0 0 18px var(--glow)}
+.disc{position:relative;overflow:hidden}
+.disc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.disc.hascov:after{content:"";position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px;border-radius:50%;background:#0a0a0a;box-shadow:0 0 0 2px rgba(255,255,255,.25)}
+.ph .ic{position:relative;overflow:hidden}
+.ph .ic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .spin .disc{animation:spin 6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .tt{min-width:0}
@@ -312,13 +324,14 @@ footer{position:relative;z-index:2;text-align:center;padding:0 0 190px}
 
 <aside class="player" id="player" aria-label="เครื่องเล่นเพลง">
   <div class="ph">
-    <span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 3v12.3A3.5 3.5 0 1 0 11 18.5V8h6V3z"/></svg></span>
-    <span>NOW PLAYING</span><span class="grow"></span>
+    <span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 3v12.3A3.5 3.5 0 1 0 11 18.5V8h6V3z"/></svg><img id="miniCov" alt="" hidden></span>
+    <span class="np">NOW PLAYING</span><span class="mini" id="miniT"></span><span class="grow"></span>
+    <button class="pc mplay" id="miniPlay" aria-label="เล่นหรือหยุดเพลง"></button>
     <button class="pc" id="lstBtn" aria-label="รายการเพลง" aria-pressed="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
     <button class="pc chev" id="chev" aria-label="ย่อหรือขยายเครื่องเล่น"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
   </div>
   <div class="pbody">
-    <div class="track" id="trackbox"><div class="disc"></div><div class="tt"><b id="tTitle"></b><span id="tArtist"></span><small id="tLabel"></small></div></div>
+    <div class="track" id="trackbox"><div class="disc" id="disc"><img id="cov" alt="" hidden></div><div class="tt"><b id="tTitle"></b><span id="tArtist"></span><small id="tLabel"></small></div></div>
     <div class="prog"><input type="range" id="seek" min="0" max="100" step="0.1" value="0" aria-label="ตำแหน่งเพลง"><div class="times"><span id="cur">0:00</span><span id="dur">0:00</span></div></div>
     <div class="ctrls">
       <button class="pc" id="shf" aria-label="สุ่มเพลง" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg></button>
@@ -489,12 +502,21 @@ var A = new Audio(); A.preload = "auto";
 var Y = {p:null, ready:false, id:""};
 var IP = '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
 var IQ = '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
-$("play").innerHTML = IP;
+$("play").innerHTML = IP; $("miniPlay").innerHTML = IP;
 function fmt(s){ if(!isFinite(s) || s<=0) return "0:00"; s=Math.floor(s); return Math.floor(s/60)+":"+("0"+(s%60)).slice(-2); }
 function dur(){ try{ if(P.kind==="audio") return isFinite(A.duration)?A.duration:0; if(P.kind==="yt" && Y.ready) return Y.p.getDuration()||0; }catch(e){} return 0; }
 function paint(){ var d = dur(); $("cur").textContent = fmt(P.pos); $("dur").textContent = d ? fmt(d) : "--:--"; if(!P.drag) $("seek").value = d ? Math.min(100, P.pos/d*100) : 0; }
 function stat(m){ $("tLabel").textContent = m || S.label; }
-function showInfo(){ var t = S.tracks[P.i]; if(!t) return; $("tTitle").textContent = t.t; $("tArtist").textContent = t.a || ""; stat(); }
+function coverOf(t){ if(t.cover) return blob(t.cover); var s = parseSrc(t.src); return s.k==="yt" ? "https://i.ytimg.com/vi/"+s.id+"/mqdefault.jpg" : ""; }
+function showCover(t){
+  var u = coverOf(t), c = $("cov"), m = $("miniCov"), d = $("disc");
+  if(u){
+    c.onerror = function(){ c.hidden = true; d.classList.remove("hascov"); }; c.onload = function(){ c.hidden = false; d.classList.add("hascov"); }; c.src = u;
+    m.onerror = function(){ m.hidden = true; }; m.onload = function(){ m.hidden = false; }; m.src = u;
+  } else { c.hidden = true; m.hidden = true; c.removeAttribute("src"); m.removeAttribute("src"); d.classList.remove("hascov"); }
+  try{ if("mediaSession" in navigator && window.MediaMetadata) navigator.mediaSession.metadata = new MediaMetadata({title:t.t||"", artist:t.a||"", artwork: u ? [{src:new URL(u, location.href).href}] : []}); }catch(e){}
+}
+function showInfo(){ var t = S.tracks[P.i]; if(!t) return; $("tTitle").textContent = t.t; $("tArtist").textContent = t.a || ""; $("miniT").textContent = t.t + (t.a ? " — " + t.a : ""); showCover(t); stat(); }
 
 /* แปลงลิงก์ให้เล่นได้ */
 function parseSrc(u){
@@ -585,7 +607,7 @@ function applyVol(){
 }
 function setPlaying(v){
   if(v && (P.kind==="none" || P.kind==="bad")){ toast(P.kind==="bad" ? "ลิงก์เพลงนี้ไม่ถูกต้อง แก้ได้ในแผงแอดมิน > เพลง" : "เพลงนี้ยังไม่ได้ใส่ลิงก์ (ใส่ได้ในแผงแอดมิน > เพลง)"); v = false; }
-  P.playing = v; $("play").innerHTML = v ? IQ : IP; $("trackbox").classList.toggle("spin", v);
+  P.playing = v; $("play").innerHTML = v ? IQ : IP; $("miniPlay").innerHTML = v ? IQ : IP; $("trackbox").classList.toggle("spin", v);
   v ? doPlay() : doPause();
 }
 function nextIdx(){
@@ -622,13 +644,15 @@ function drawList(){
       [h("span",{class:"pn"},[String(i+1)]), h("span",{class:"pt"},[t.t + (t.a ? " — " + t.a : "")])]));
   });
 }
-$("play").onclick = function(){ setPlaying(!P.playing); };
+$("play").onclick = $("miniPlay").onclick = function(){ setPlaying(!P.playing); };
 $("next").onclick = function(){ loadTrack(nextIdx(), P.playing); };
 $("prev").onclick = function(){ if(P.pos>3){ doSeek(0); P.pos = 0; paint(); } else loadTrack(P.i-1, P.playing); };
 $("rep").onclick = function(){ P.rep = !P.rep; this.classList.toggle("on", P.rep); this.setAttribute("aria-pressed", String(P.rep)); };
 $("shf").onclick = function(){ P.shuf = !P.shuf; this.classList.toggle("on", P.shuf); this.setAttribute("aria-pressed", String(P.shuf)); };
 $("mute").onclick = function(){ P.muted = !P.muted; this.classList.toggle("on", P.muted); this.setAttribute("aria-pressed", String(P.muted)); applyVol(); };
-$("chev").onclick = function(){ $("player").classList.toggle("min"); };
+function setMin(m){ $("player").classList.toggle("min", m); document.body.classList.toggle("pmin", m); }
+$("chev").onclick = function(){ setMin(!$("player").classList.contains("min")); };
+setMin(matchMedia("(max-width:640px)").matches);
 $("lstBtn").onclick = function(){ var l = $("plist"); l.hidden = !l.hidden; this.classList.toggle("on", !l.hidden); this.setAttribute("aria-pressed", String(!l.hidden)); };
 $("vol").oninput = function(){ $("vv").textContent = this.value + "%"; applyVol(); };
 $("seek").addEventListener("pointerdown", function(){ P.drag = true; });
@@ -724,7 +748,7 @@ function pickAudio(cb){
 function fld(label, val, on, type){ var i = h("input",{class:"fld",type:type||"text",value:val||""}); i.oninput = function(){ on(i.value); markDirty(); }; return h("div",{},[h("label",{class:"lab"},[label]),i]); }
 
 /* ระบบเพลงฝั่งแอดมิน */
-var LBL = {yt:"▶ YouTube", audio:"♪ ไฟล์เสียง", bad:"✕ ลิงก์ไม่ถูกต้อง", none:"ยังไม่มีลิงก์"};
+var LBL = {yt:"▶ YouTube (อาจมีโฆษณาคั่น ถ้าไม่ต้องการ ใช้ไฟล์ .mp3 แทน)", audio:"♪ ไฟล์เสียง", bad:"✕ ลิงก์ไม่ถูกต้อง", none:"ยังไม่มีลิงก์"};
 function stText(src){
   var s = parseSrc(src), x = LBL[s.k];
   if(s.k==="audio" && s.local && !LOCAL[(src||"").trim()]) x += " (ไฟล์ในเว็บ เล่นได้หลังเผยแพร่)";
@@ -736,7 +760,13 @@ function autoTitle(t){
   var s = parseSrc(t.src); if(s.k!=="yt" || !isDef(t)) return Promise.resolve();
   return fetch("https://www.youtube.com/oembed?format=json&url=" + encodeURIComponent("https://www.youtube.com/watch?v="+s.id))
     .then(function(r){ return r.ok ? r.json() : null; })
-    .then(function(j){ if(j && isDef(t)){ t.t = j.title; if(!t.a) t.a = j.author_name; } }).catch(function(){});
+    .then(function(j){
+      if(!j || !isDef(t)) return;
+      var tt = j.title || "", ar = (j.author_name || "").replace(/\s*-\s*Topic$/i, ""), m = /^(.{1,60}?)\s+[-\u2013\u2014]\s+(.+)$/.exec(tt);
+      if(m){ ar = m[1]; tt = m[2]; }
+      tt = tt.replace(/\s*\[[^\]]*\]\s*/g, " ").replace(/\s*[(\uFF08](official[^)\uFF09]*|lyrics?[^)\uFF09]*|audio[^)\uFF09]*|video[^)\uFF09]*|mv[^)\uFF09]*)[)\uFF09]/ig, "").trim();
+      t.t = tt || j.title; if(!t.a) t.a = ar;
+    }).catch(function(){});
 }
 function addTrack(t){
   S.tracks.push(t); markDirty();
@@ -751,7 +781,7 @@ function moveTrack(i, j){
   markDirty(); drawList(); drawAdmin();
 }
 function adminMusic(b){
-  b.appendChild(h("p",{class:"lab"},["วางลิงก์ YouTube (แนะนำ ใช้ง่ายสุด) / ลิงก์ไฟล์ .mp3 / Google Drive / Dropbox แล้วกด เพิ่ม หรืออัปโหลดไฟล์เอง (ไม่เกิน 25 MB) ระบบจะดึงชื่อเพลงจาก YouTube ให้อัตโนมัติ"]));
+  b.appendChild(h("p",{class:"lab"},["วางลิงก์ YouTube (ใช้ง่ายสุด แต่ YouTube อาจเล่นโฆษณาคั่น) / ลิงก์ไฟล์ .mp3 (ไม่มีโฆษณา) / Google Drive / Dropbox แล้วกด เพิ่ม หรืออัปโหลดไฟล์เอง (ไม่เกิน 25 MB) ระบบจะดึงชื่อเพลงจาก YouTube ให้อัตโนมัติ"]));
   var ain = h("input",{class:"fld",placeholder:"https://youtu.be/... หรือ https://...mp3"});
   var go = function(){
     var u = ain.value.trim(); if(!u) return;
@@ -777,9 +807,12 @@ function adminMusic(b){
       if(i===P.i) loadTrack(i, false);
       autoTitle(t).then(function(){ ti.value = t.t; ar.value = t.a || ""; if(i===P.i) showInfo(); drawList(); });
     };
-    b.appendChild(h("div",{class:"row"},[ti, h("div",{class:"two"},[ar, sr]), st,
+    var cu = coverOf(t), th = cu ? h("img",{class:"thumb",src:cu,alt:"",style:"border-radius:8px"}) : h("div",{class:"thumb",style:"border-radius:8px"},["\u266A"]);
+    b.appendChild(h("div",{class:"row"},[h("div",{class:"rt"},[th, ti]), h("div",{class:"two"},[ar, sr]), st,
       h("div",{class:"btns"},[
         h("button",{class:"btn",onclick:function(){ P.fails = 0; loadTrack(i, true); }},["▶ ทดสอบเล่น"]),
+        h("button",{class:"btn",onclick:function(){ pick("image/*",function(id){ t.cover = id; markDirty(); if(i===P.i) showInfo(); drawAdmin(); },600); }},["อัปโหลดปก"]),
+        t.cover ? h("button",{class:"btn del",onclick:function(){ t.cover = ""; markDirty(); if(i===P.i) showInfo(); drawAdmin(); }},["ลบปก"]) : "",
         h("button",{class:"btn",onclick:function(){ moveTrack(i, i-1); }},["↑"]),
         h("button",{class:"btn",onclick:function(){ moveTrack(i, i+1); }},["↓"]),
         h("button",{class:"btn",onclick:function(){ pickAudio(function(path, name){ t.src = path; if(isDef(t)) t.t = name; markDirty(); if(i===P.i) loadTrack(i, false); drawList(); drawAdmin(); }); }},["อัปโหลดไฟล์"]),
