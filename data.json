@@ -199,15 +199,5 @@
    "cover": "img/1793189906259.png"
   }
  ],
- "streamers": [
-  {
-   "n": "สตรีมเมอร์ใหม่",
-   "p": "tiktok",
-   "url": "https://www.tiktok.com/@guitaranamy?is_from_webapp=1&sender_device=pc",
-   "live": true,
-   "title": "fivem",
-   "sched": "สตรีมทุกวัน",
-   "img": "img/1793206979547.png"
-  }
- ]
+ "streamers": []
 }
