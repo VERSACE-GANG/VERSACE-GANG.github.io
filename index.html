@@ -85,6 +85,50 @@ h2 small{font-size:13px;font-weight:600;color:var(--acc);letter-spacing:.08em}
 .fb{display:inline-flex;align-items:center;gap:7px;padding:4px 10px 4px 5px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid var(--line);color:#dcdde0;font-size:12px;text-decoration:none}
 .fb i{width:17px;height:17px;border-radius:50%;background:#4a4e57;color:#fff;font:700 11px/17px var(--fb);text-align:center;font-style:normal}
 .empty{text-align:center;color:var(--muted);padding:60px 0}
+/* ===== สตรีมเมอร์ ===== */
+.cards.strm{grid-template-columns:repeat(3,1fr)}
+@media (max-width:980px){.cards.strm{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.cards.strm{grid-template-columns:1fr}}
+.card.sc{--rc:var(--pc,#9aa0a8);align-items:flex-start}
+.card.sc.live{border-color:#ff3345;box-shadow:0 0 26px -6px #ff3345}
+.card.sc .av.lv{animation:livering 1.6s ease-in-out infinite}
+@keyframes livering{50%{box-shadow:0 0 0 6px rgba(255,51,69,.28),0 0 22px #ff3345}}
+.livepill{display:inline-flex;align-items:center;gap:6px;margin-left:6px;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.16em;background:#ff3345;color:#fff;vertical-align:middle}
+.livepill:before{content:"";width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.2}}
+.offpill{display:inline-flex;align-items:center;margin-left:6px;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--muted);border:1px solid var(--line)}
+.sinfo{margin:0 0 10px;font-size:12.5px;line-height:1.5;color:#c9ccd2}
+.sinfo b{color:#fff;font-weight:600}
+.watch{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;background:var(--rc);color:#06060a;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:.04em}
+.watch.dis{background:rgba(255,255,255,.08);color:var(--muted);pointer-events:none}
+.tab .ld{width:7px;height:7px;border-radius:50%;background:#ff3345;margin-left:7px;animation:blink 1s steps(2) infinite}
+
+/* ===== การ์ดสมาชิกที่เป็นสตรีมเมอร์ ===== */
+@property --ang{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes spinb{to{--ang:360deg}}
+@keyframes eqb{0%,100%{height:3px}50%{height:11px}}
+.card.stx{--rc:var(--pc);overflow:hidden;border:1.5px solid transparent;
+  background:linear-gradient(160deg,#1c1c22,#0e0e11) padding-box,conic-gradient(from var(--ang),transparent 0 52%,var(--pc) 78%,#fff 90%,transparent 100%) border-box;
+  animation:spinb 3.6s linear infinite;box-shadow:0 0 26px -10px var(--pc)}
+.card.stx.live{--pc:#ff3345;animation-duration:1.8s;box-shadow:0 0 30px -4px rgba(255,51,69,.6)}
+.card.stx .av{border-color:var(--pc);box-shadow:0 0 16px -1px var(--pc)}
+.card.stx.live .av{animation:livering 1.6s ease-in-out infinite}
+.stx .shn{position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.16) 50%,transparent 62%);transform:translateX(-130%)}
+.card.stx:hover .shn{transform:translateX(130%);transition:transform .9s ease}
+.stx .rib{position:absolute;left:-38px;top:15px;width:124px;text-align:center;transform:rotate(-45deg);background:var(--pc);color:#06060a;font:800 8px/1.9 var(--fb);letter-spacing:.14em;white-space:nowrap;z-index:2;pointer-events:none}
+.card.stx.live .rib{color:#fff}
+.stbadge{display:inline-flex;align-items:center;gap:5px;margin-left:6px;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.14em;color:#06060a;background:var(--pc)}
+.card.stx.live .stbadge{color:#fff}
+.eq{display:inline-flex;gap:2px;align-items:flex-end;height:11px}
+.eq i{display:block;width:2px;height:3px;background:currentColor;animation:eqb .8s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:.2s}.eq i:nth-child(3){animation-delay:.4s}.eq i:nth-child(4){animation-delay:.1s}
+.watch.lv{background:#ff3345;color:#fff}
+.stx .info{position:relative;z-index:1}
+.sfld{margin-top:10px;padding:10px;border-radius:10px;border:1px dashed var(--line);background:rgba(255,255,255,.03)}
+@media (prefers-reduced-motion:reduce){html:not(.force) .card.stx,html:not(.force) .eq i,html:not(.force) .stx .av{animation:none!important}}
+.livebar{display:none;margin:0 auto 26px;max-width:1240px;padding:12px 18px;border-radius:14px;background:linear-gradient(90deg,rgba(255,51,69,.22),rgba(255,51,69,.05));border:1px solid rgba(255,51,69,.5);font-size:14px;cursor:pointer;align-items:center;gap:10px}
+.livebar.on{display:flex}
+
 footer{position:relative;z-index:2;text-align:center;padding:0 0 190px}
 .adminlink{background:none;border:1px solid var(--line);color:var(--muted);font-size:12px;padding:8px 16px;border-radius:999px;cursor:pointer}
 .adminlink:hover{color:#fff;border-color:var(--acc)}
@@ -359,6 +403,7 @@ footer{padding-bottom:110px}body:not(.pmin) footer{padding-bottom:300px}
     <div class="sbox" id="sbox"><input type="search" id="q" placeholder="ค้นหาชื่อ" aria-label="ค้นหาชื่อสมาชิก"></div>
     <button class="sbtn" id="sbtn" aria-label="ค้นหา"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
   </div>
+  <div class="livebar" id="livebar" role="button" tabindex="0"></div>
   <main id="main"></main>
   <footer><button class="adminlink" id="adminBtn">เข้าสู่ระบบแอดมิน</button><p class="credit">สนใจทำเว็บ By <b>Oliver</b></p></footer>
 </div>
@@ -405,7 +450,7 @@ footer{padding-bottom:110px}body:not(.pmin) footer{padding-bottom:300px}
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-var S = {brand:"YOURCLUB",tagline:"YOUR CLUB NAME",mark2:"1 PLAYER IN YOURCLUB",label:"YOUR SOUNDS",accent:"#e11d2e",snow:true,splash:true,force:true,enter:"ENTER",logo:"",logoSize:150,sfx:true,slash:true,fontH:"",fontB:"",bg:"",bgDim:55,members:null,tracks:null};
+var S = {brand:"YOURCLUB",tagline:"YOUR CLUB NAME",mark2:"1 PLAYER IN YOURCLUB",label:"YOUR SOUNDS",accent:"#e11d2e",snow:true,splash:true,force:true,enter:"ENTER",logo:"",logoSize:150,sfx:true,slash:true,fontH:"",fontB:"",bg:"",bgDim:55,members:null,tracks:null,streamers:null};
 var TOKEN = "", LOCAL = {};
 var MQ = matchMedia("(prefers-reduced-motion: reduce)");
 function reducedNow(){ return MQ.matches && !S.force; }
@@ -415,6 +460,10 @@ var ROLES = ["Founders","Leaders","Support","Members"];
 var CLS = {Founders:"founder",Leaders:"leader",Support:"support",Members:"member"};
 var BADGE = {Founders:"Founder",Leaders:"Leader",Support:"Support",Members:"Member"};
 var SALT = "mp26:";
+var PLAT = {twitch:{n:"Twitch",c:"#9146ff"},youtube:{n:"YouTube",c:"#ff2d2d"},tiktok:{n:"TikTok",c:"#25f4ee"},facebook:{n:"Facebook",c:"#4a8bff"},kick:{n:"Kick",c:"#53fc18"},other:{n:"อื่นๆ",c:"#9aa0a8"}};
+function liveNames(){ return (S.streamers||[]).filter(function(x){ return x.live; }).map(function(x){ return x.n; }).concat(S.members.filter(function(m){ return m.sOn && m.sl; }).map(function(m){ return m.n; })); }
+function liveN(){ return liveNames().length; }
+function strmMembers(){ return S.members.filter(function(m){ return m.sOn; }); }
 function seed(){
 if(!S.members){
   S.members = [];
@@ -422,6 +471,7 @@ if(!S.members){
    ["Members",["Member One","Member Two","Member Three","Member Four","Member Five","Member Six","Member Seven","Member Eight","Member Nine","Member Ten","Member Eleven","Member Twelve","Member Thirteen","Member Fourteen","Member Fifteen","Member Sixteen","Member Seventeen"]]
   ].forEach(function(g){ g[1].forEach(function(n){ S.members.push({n:n,r:g[0],fb:"",on:g[0]==="Members",img:""}); }); });
 }
+if(!S.streamers) S.streamers = [];
 if(!S.tracks) S.tracks = [{t:"Track Title One",a:"Artist One",src:""},{t:"Track Title Two",a:"Artist Two",src:""}];
 }
 
@@ -464,7 +514,7 @@ function logoNode(){
   var t = document.createElement("div"); t.innerHTML = LOGO_SVG; return t.firstChild;
 }
 var active = "All", query = "";
-function cnt(r){ return r==="All" ? S.members.length : S.members.filter(function(m){return m.r===r}).length; }
+function cnt(r){ if(r==="Streamers") return (S.streamers||[]).length + strmMembers().length; return r==="All" ? S.members.length : S.members.filter(function(m){return m.r===r}).length; }
 function renderBrand(){
   var b = $("brand"); if(renderBrand.last === S.brand) return; renderBrand.last = S.brand;
   b.innerHTML = ""; b.setAttribute("aria-label", S.brand); b.classList.toggle("noin", !!renderBrand.done); renderBrand.done = true;
@@ -489,10 +539,38 @@ function drawSite(){
 }
 function drawTabs(){
   var box = $("tabs"); box.innerHTML = "";
-  ["All"].concat(ROLES).forEach(function(r){
-    var b = h("button",{class:"tab","aria-pressed":String(r===active)}); b.innerHTML = r + "<em>" + cnt(r) + "</em>";
+  ["All"].concat(ROLES, ["Streamers"]).forEach(function(r){
+    var b = h("button",{class:"tab","aria-pressed":String(r===active)}); b.innerHTML = r + "<em>" + cnt(r) + "</em>" + (r==="Streamers" && liveN() ? '<i class="ld" aria-label="กำลังไลฟ์"></i>' : "");
     b.onclick = function(){ active = r; drawTabs(); drawMain(); }; box.appendChild(b);
   });
+}
+function memberCard(m, role){
+  var st = !!m.sOn, pl = PLAT[m.sp] || PLAT.other, live = st && !!m.sl;
+  var av = h("div",{class:"av"+(live?" lv":"")},[m.n.charAt(0)]);
+  if(m.img) av.appendChild(h("img",{src:blob(m.img),alt:""}));
+  av.appendChild(h("span",{class:"dot"+(m.on?"":" off")}));
+  var inf = [h("span",{class:"badge"},[BADGE[role]])];
+  if(st) inf.push(h("span",{class:"stbadge"},[live ? "\u25CF LIVE" : "\u25B6 STREAMER"]));
+  inf.push(h("p",{class:"nm"},[m.n]));
+  if(st){
+    if((live && m.sti) || m.ssc){
+      var si = h("p",{class:"sinfo"});
+      if(live && m.sti) si.appendChild(h("span",{},[h("b",{},["กำลังสตรีม: "]), m.sti, h("br")]));
+      if(m.ssc) si.appendChild(h("span",{},[h("b",{},["ตารางสตรีม: "]), m.ssc]));
+      inf.push(si);
+    }
+    var ok = /^https?:\/\//i.test(m.su||"");
+    var wa = h("a",ok?{class:"watch"+(live?" lv":""),href:m.su,target:"_blank",rel:"noopener"}:{class:"watch dis"});
+    if(live){ var eq = h("span",{class:"eq","aria-hidden":"true"},[h("i"),h("i"),h("i"),h("i")]); wa.appendChild(eq); wa.appendChild(document.createTextNode("LIVE NOW")); }
+    else wa.appendChild(document.createTextNode("\u25B6 WATCH ON " + pl.n.toUpperCase()));
+    inf.push(wa);
+  } else {
+    var fb = h("a",/^https?:\/\//i.test(m.fb)?{class:"fb",href:m.fb,target:"_blank",rel:"noopener"}:{class:"fb"}); fb.innerHTML = "<i>f</i>Facebook";
+    inf.push(fb);
+  }
+  var kids = [av, h("div",{class:"info"},inf)];
+  if(st){ kids.push(h("span",{class:"shn","aria-hidden":"true"})); kids.push(h("span",{class:"rib","aria-hidden":"true"},[live ? "LIVE" : "STREAMER"])); }
+  return h("div",st?{class:"card "+CLS[role]+" stx"+(live?" live":""),style:"--pc:"+(live?"#ff3345":pl.c)}:{class:"card "+CLS[role]},kids);
 }
 function drawMain(){
   var main = $("main"); main.innerHTML = ""; var shown = 0;
@@ -502,17 +580,40 @@ function drawMain(){
     if(!list.length) return; shown++;
     var s = h("section"); s.innerHTML = "<h2>"+role+"<small>/ "+(idx<9?"0":"")+(idx+1)+"</small></h2>";
     var g = h("div",{class:"cards"+((role==="Founders"||role==="Leaders")?" two":"")});
-    list.forEach(function(m){
-      var av = h("div",{class:"av"},[m.n.charAt(0)]);
-      if(m.img) av.appendChild(h("img",{src:blob(m.img),alt:""}));
-      av.appendChild(h("span",{class:"dot"+(m.on?"":" off")}));
-      var fb = h("a",/^https?:\/\//i.test(m.fb)?{class:"fb",href:m.fb,target:"_blank",rel:"noopener"}:{class:"fb"}); fb.innerHTML = "<i>f</i>Facebook";
-      g.appendChild(h("div",{class:"card "+CLS[role]},[av,h("div",{class:"info"},[h("span",{class:"badge"},[BADGE[role]]),h("p",{class:"nm"},[m.n]),fb])]));
-    });
+    list.forEach(function(m){ g.appendChild(memberCard(m, role)); });
     s.appendChild(g); main.appendChild(s);
   });
-  if(!shown) main.innerHTML = '<div class="empty">ไม่พบสมาชิก ลองเปลี่ยนคำค้นหาหรือเลือกกลุ่มอื่น</div>';
+  if(active==="All" || active==="Streamers"){
+    var sl = (S.streamers||[]).filter(function(x){ return x.n.toLowerCase().indexOf(query.toLowerCase())>-1; })
+      .sort(function(a,b){ return (b.live?1:0)-(a.live?1:0); });
+    var fl = active==="Streamers" ? strmMembers().filter(function(m){ return m.n.toLowerCase().indexOf(query.toLowerCase())>-1; }).sort(function(a,b){ return (b.sl?1:0)-(a.sl?1:0); }) : [];
+    if(sl.length || fl.length){
+      shown++;
+      var ss = h("section",{id:"strmSec"}); ss.innerHTML = "<h2>Streamers<small>/ LIVE "+liveN()+"</small></h2>";
+      var sg = h("div",{class:"cards strm"});
+      fl.forEach(function(m){ sg.appendChild(memberCard(m, m.r)); });
+      sl.forEach(function(x){
+        var pl = PLAT[x.p] || PLAT.other, ok = /^https?:\/\//i.test(x.url||"");
+        var av = h("div",{class:"av"+(x.live?" lv":"")},[x.n.charAt(0)]);
+        if(x.img) av.appendChild(h("img",{src:blob(x.img),alt:""}));
+        var lp = x.live ? h("span",{class:"livepill"},["LIVE"]) : h("span",{class:"offpill"},["OFFLINE"]);
+        var inf = [h("span",{class:"badge"},[pl.n]), lp, h("p",{class:"nm"},[x.n])];
+        var si = h("p",{class:"sinfo"});
+        if(x.live && x.title) si.appendChild(h("span",{},[h("b",{},["กำลังสตรีม: "]), x.title, h("br")]));
+        if(x.sched) si.appendChild(h("span",{},[h("b",{},["ตารางสตรีม: "]), x.sched]));
+        if(si.childNodes.length) inf.push(si);
+        var wa = h("a",ok?{class:"watch",href:x.url,target:"_blank",rel:"noopener"}:{class:"watch dis"},[x.live ? "▶ ดูไลฟ์เลย" : "ไปที่ช่อง"]);
+        inf.push(wa);
+        sg.appendChild(h("div",{class:"card sc"+(x.live?" live":""),style:"--pc:"+pl.c},[av,h("div",{class:"info",style:"min-width:0;flex:1"},inf)]));
+      });
+      ss.appendChild(sg); main.appendChild(ss);
+    }
+  }
+  if(!shown) main.innerHTML = '<div class="empty">'+(active==="Streamers" ? "ยังไม่มีสตรีมเมอร์ เพิ่มได้ในแผงแอดมิน > สตรีมเมอร์" : "ไม่พบสมาชิก ลองเปลี่ยนคำค้นหาหรือเลือกกลุ่มอื่น")+'</div>';
+  var lb = $("livebar"); if(lb){ var n = liveN(); lb.classList.toggle("on", n>0); lb.textContent = ""; if(n>0){ var nm = liveNames().join(", "); lb.appendChild(h("span",{class:"livepill"},["LIVE"])); lb.appendChild(document.createTextNode(" กำลังไลฟ์ "+n+" คน: "+nm)); } }
 }
+$("livebar").onclick = function(){ active = "Streamers"; drawTabs(); drawMain(); };
+$("livebar").onkeydown = function(e){ if(e.key==="Enter"||e.key===" ") this.click(); };
 $("sbtn").onclick = function(){ var b=$("sbox"); b.classList.toggle("on"); if(b.classList.contains("on")) $("q").focus(); else { $("q").value=""; query=""; drawMain(); } };
 $("q").oninput = function(){ query = this.value; drawMain(); };
 function refresh(){ drawSite(); drawTabs(); drawMain(); loadTrack(P.i, false); }
@@ -872,9 +973,46 @@ function adminMusic(b){
   });
 }
 
+/* ระบบสตรีมเมอร์ฝั่งแอดมิน */
+function adminStreamers(b){
+  b.appendChild(h("p",{class:"lab"},["เพิ่มสตรีมเมอร์ ใส่ลิงก์ช่อง แล้วติ๊ก \"กำลังไลฟ์\" ตอนเริ่มสตรีม (ระบบตรวจสถานะอัตโนมัติจาก Twitch/YouTube ต้องใช้เซิร์ฟเวอร์และ API key ซึ่งเว็บนี้ไม่มี จึงใช้การติ๊กเองแทน) แล้วกด บันทึกและเผยแพร่"]));
+  b.appendChild(h("div",{class:"btns"},[h("button",{class:"btn red",onclick:function(){
+    S.streamers.push({n:"สตรีมเมอร์ใหม่",p:"twitch",url:"",live:false,title:"",sched:"",img:""}); markDirty(); drawTabs(); drawMain(); drawAdmin();
+  }},["+ เพิ่มสตรีมเมอร์"])]));
+  S.streamers.forEach(function(x, i){
+    var th = h("div",{class:"thumb"},[x.n.charAt(0)]); if(x.img) th = h("img",{class:"thumb",src:blob(x.img),alt:""});
+    var nm = h("input",{class:"fld",value:x.n,placeholder:"ชื่อสตรีมเมอร์"}); nm.oninput = function(){ x.n = nm.value; markDirty(); drawMain(); };
+    var pl = h("select",{class:"fld"}, Object.keys(PLAT).map(function(k){ var o = h("option",{value:k},[PLAT[k].n]); if(k===x.p) o.selected = true; return o; }));
+    pl.onchange = function(){ x.p = pl.value; markDirty(); drawMain(); };
+    var ur = h("input",{class:"fld",value:x.url||"",placeholder:"ลิงก์ช่อง https://twitch.tv/..."}); ur.oninput = function(){ x.url = ur.value.trim(); markDirty(); drawMain(); };
+    var tt = h("input",{class:"fld",value:x.title||"",placeholder:"กำลังสตรีมอะไร (แสดงตอน LIVE)"}); tt.oninput = function(){ x.title = tt.value; markDirty(); drawMain(); };
+    var sc = h("input",{class:"fld",value:x.sched||"",placeholder:"ตารางสตรีม เช่น จ-ศ 20:00"}); sc.oninput = function(){ x.sched = sc.value; markDirty(); drawMain(); };
+    var lv = h("input",{type:"checkbox",checked:!!x.live}); lv.onchange = function(){ x.live = lv.checked; markDirty(); drawTabs(); drawMain(); };
+    b.appendChild(h("div",{class:"row"},[
+      h("div",{class:"rt"},[th, nm]), h("div",{class:"two"},[pl, ur]), h("div",{style:"margin-top:8px"},[tt]), h("div",{style:"margin-top:8px"},[sc]),
+      h("div",{class:"btns"},[
+        h("label",{class:"chk"},[lv,"กำลังไลฟ์"]),
+        h("button",{class:"btn",onclick:function(){ pick("image/*",function(id){ x.img = id; markDirty(); drawMain(); drawAdmin(); }); }},["รูปโปรไฟล์"]),
+        h("button",{class:"btn",onclick:function(){ if(i>0){ var t = S.streamers[i]; S.streamers[i] = S.streamers[i-1]; S.streamers[i-1] = t; markDirty(); drawMain(); drawAdmin(); } }},["↑"]),
+        h("button",{class:"btn",onclick:function(){ if(i<S.streamers.length-1){ var t = S.streamers[i]; S.streamers[i] = S.streamers[i+1]; S.streamers[i+1] = t; markDirty(); drawMain(); drawAdmin(); } }},["↓"]),
+        h("button",{class:"btn del",onclick:function(){ if(confirm("ลบ "+x.n+" ?")){ S.streamers.splice(i,1); markDirty(); drawTabs(); drawMain(); drawAdmin(); } }},["ลบ"])])
+    ]));
+  });
+}
+
+function streamerFields(m){
+  var pl = h("select",{class:"fld"}, Object.keys(PLAT).map(function(k){ var o = h("option",{value:k},[PLAT[k].n]); if(k===m.sp) o.selected = true; return o; }));
+  pl.onchange = function(){ m.sp = pl.value; markDirty(); drawMain(); };
+  var ur = h("input",{class:"fld",value:m.su||"",placeholder:"ลิงก์ช่อง https://twitch.tv/..."}); ur.oninput = function(){ m.su = ur.value.trim(); markDirty(); drawMain(); };
+  var tt = h("input",{class:"fld",value:m.sti||"",placeholder:"กำลังสตรีมอะไร (แสดงตอน LIVE)"}); tt.oninput = function(){ m.sti = tt.value; markDirty(); drawMain(); };
+  var sc = h("input",{class:"fld",value:m.ssc||"",placeholder:"ตารางสตรีม เช่น จ-ศ 20:00"}); sc.oninput = function(){ m.ssc = sc.value; markDirty(); drawMain(); };
+  var lv = h("input",{type:"checkbox",checked:!!m.sl}); lv.onchange = function(){ m.sl = lv.checked; markDirty(); drawTabs(); drawMain(); };
+  return h("div",{class:"sfld"},[h("div",{class:"two"},[pl,ur]), h("div",{style:"margin-top:8px"},[tt]), h("div",{style:"margin-top:8px"},[sc]), h("div",{class:"btns"},[h("label",{class:"chk"},[lv,"กำลังไลฟ์ (LIVE)"])])]);
+}
+
 function drawAdmin(){
   var tb = $("dtabs"); tb.innerHTML = "";
-  [["site","ทั่วไป"],["members","สมาชิก"],["music","เพลง"],["sec","ความปลอดภัย"]].forEach(function(t){
+  [["site","ทั่วไป"],["members","สมาชิก"],["music","เพลง"],["streamers","สตรีมเมอร์"],["sec","ความปลอดภัย"]].forEach(function(t){
     tb.appendChild(h("button",{"aria-pressed":String(dtab===t[0]),onclick:function(){ dtab=t[0]; drawAdmin(); }},[t[1]]));
   });
   var b = $("dbody"); b.innerHTML = "";
@@ -930,15 +1068,19 @@ function drawAdmin(){
       rl.onchange = function(){ m.r=rl.value; markDirty(); drawTabs(); drawMain(); };
       var fb = h("input",{class:"fld",value:m.fb,placeholder:"ลิงก์ Facebook"}); fb.oninput = function(){ m.fb=fb.value; markDirty(); drawMain(); };
       var on = h("input",{type:"checkbox",checked:m.on}); on.onchange = function(){ m.on=on.checked; markDirty(); drawMain(); };
+      var so = h("input",{type:"checkbox",checked:!!m.sOn}); so.onchange = function(){ m.sOn = so.checked; if(m.sOn && !m.sp) m.sp = "twitch"; markDirty(); drawTabs(); drawMain(); drawAdmin(); };
       b.appendChild(h("div",{class:"row"},[
         h("div",{class:"rt"},[th,nm]), h("div",{class:"two"},[rl,fb]),
-        h("div",{class:"btns"},[h("label",{class:"chk"},[on,"ออนไลน์"]),
+        h("div",{class:"btns"},[h("label",{class:"chk"},[so,"เป็นสตรีมเมอร์"]),h("label",{class:"chk"},[on,"ออนไลน์"])]),
+        m.sOn ? streamerFields(m) : "",
+        h("div",{class:"btns"},[
           h("button",{class:"btn",onclick:function(){ pick("image/*",function(id){ m.img=id; markDirty(); drawMain(); drawAdmin(); }); }},["รูปโปรไฟล์"]),
           h("button",{class:"btn del",onclick:function(){ if(confirm("ลบ "+m.n+" ?")){ S.members.splice(i,1); markDirty(); drawTabs(); drawMain(); drawAdmin(); } }},["ลบ"])])
       ]));
     });
   }
   if(dtab==="music") adminMusic(b);
+  if(dtab==="streamers") adminStreamers(b);
   if(dtab==="sec"){
     b.appendChild(h("p",{class:"lab"},["การเข้าสู่ระบบใช้ GitHub Token ของ repo นี้ ใครมี Token คนนั้นแก้เว็บได้ ห้ามแจกหรือโพสต์ที่ไหน ถ้าหลุดให้ไปลบ (Revoke) ที่ GitHub แล้วสร้างใหม่"]));
     b.appendChild(h("p",{class:"lab"},["Repo ที่เชื่อมอยู่: " + GH.o + "/" + GH.r]));
